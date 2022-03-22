@@ -16,7 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
-import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import DatePicker from '@mui/lab/DatePicker';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
@@ -36,6 +36,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function RegistrationPage() {
+  const [value, setValue] = React.useState(null);
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -131,15 +132,32 @@ export default function RegistrationPage() {
                     }}
                     />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} sm={6}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
-                    <DesktopDatePicker
-                        label="Date desktop"
-                        inputFormat="MM/dd/yyyy"
-                        renderInput={(params) => <TextField {...params} />}
-                        />
+                  <DatePicker
+                    views={['year', 'month', 'day']}
+                    label="Date of Birth"
+                    // value={value}
+                    onChange={(newValue) => {
+                      setValue(newValue);
+                    }}
+                    renderInput={(params) => <TextField {...params} helperText={null} />}
+                  />
                 </LocalizationProvider> 
                 </Grid>
+                <Grid item xs={12} sm={6}>
+                <FormControl sx={{ minWidth: 190 }}>
+                    <InputLabel id="demo-simple-select-helper-label">User Type</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-helper-label"
+                        id="demo-simple-select-helper"
+                        label="user-type"
+                    >
+                        <MenuItem value='doctor'>Doctor</MenuItem>
+                        <MenuItem value='patient'>Patient</MenuItem>
+                    </Select>
+                </FormControl>
+              </Grid>
             </Grid>
         
             <Button
@@ -152,7 +170,7 @@ export default function RegistrationPage() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signin" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
